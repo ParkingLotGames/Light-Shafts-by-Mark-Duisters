@@ -1,0 +1,2 @@
+Import the "URP" package inside the SRP folder. Then switch your material shader to LightShafts_URP.
+In order to return back to the Built-in pipeline, go to the SRP folder and import the "Built-in" package.

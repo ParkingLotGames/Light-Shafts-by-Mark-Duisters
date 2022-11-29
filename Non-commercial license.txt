@@ -1,0 +1,20 @@
+This asset falls under a non-commercial license when the asset is received
+through sources outside of the AssetStore. This license can be used for educational and personal projects, to test or evaluate the asset.
+Therefore the non-commercial licensed Asset or parts of it cannot be derived from or be present in any form of personal**, forked or end user application/product**.
+It is not allowed to distribute the non-commercial licensed Asset.
+
+When using the non-commercial license it is required to include the folowing credits to your project:
+-created by Mark Duisters
+-https://markduisters.com/asset-portfolio/
+-https://assetstore.unity.com/publishers/4847
+
+When going commercial or if you want to support the developer please acquire the proper license through the Unity AssetStore: https://assetstore.unity.com/publishers/4847
+
+
+**That has any form of monetization.
+
+
+
+Users who downloaded the Asset through Unity's official AssetStore and thus have a proper license can ignore the Non-commercial license mentioned above.
+
+

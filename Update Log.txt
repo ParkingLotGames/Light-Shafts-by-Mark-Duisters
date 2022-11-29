@@ -1,0 +1,156 @@
+AS LightShafts 2 v2.02 (Added feature by community request)
+
+-Exposed the time update parameter for the caustic noise.
+ Users can now completely freeze the effect, effectively creating full static visuals.
+-Updated the generator to store these new paramter values.
+-Updated shaft behavior to sync the new parameter to the shafts.
+-Exposed paramter through Inspector.
+-Updated the URP shader variant to support the changes made.
+
+
+
+
+AS LightShafts 2 v2.01 (minor bugfixes and quality of life)
+
+-Fixed bug where not baking systems would only show dynamic interractions in the editor and not in build.
+ All "dynamic" systems now should work outside of the editor.
+-Fixed issue where the wrong width slider values loaded on spawn.
+ This resulted in shafts not being visible on creation.
+
+-Removed pointer_shaftAdjustY as this value is now handled inside the shader directly. However it will stay in the generator code for now to support backwards compatibility.
+ Users using the legacy shader can re-enable this value by uncommenting the folowing lines: Generator_Inspector.cs line 73, Generator.cs lines 44, 214,266 and 367, Shaft_Behavior.cs lines  178 and 134 through 141.
+
+-Removed Unity's default character controller in the example scene. This was done to clean up the package. Unity's default
+ characters need a lot of dependency scripts from standardAssets, this caused a lot of clutter.
+
+-Added simple fly camera controller to the example scene.
+
+-Shaft colors now support HDR colors.
+-Added HDR color picker to the inspector.
+-Tweaked built-in and URP shader to have better additive blending.
+-Shader now uses an internal gradient for intensity along the shaft. This prevents clipping against surfaces.
+
+
+
+
+
+AS LightShafts 2 v2.0 (It is a big one! new features, SRP, optimizations, bug fixes and major a shader update!)
+
+NOTE! In order to take advantage of the new shader's rendering, you must replace the shader in the "LightShaftMat" material with one of the new shaders.
+If you created a custom material using this shader for your Generator then swap that material's shader to one of the new shaders.
+It is highly recommended to bake your systems when not using real-time collision/raycasts. Except for collisions, both baked and real-time are now identical visually.
+Baking the system generates a highly efficient mesh, that due to new features, still looks dynamic.
+
+-Added SRP(URP) support.
+
+-Deprecated 2017.x and below builds.
+-Fixed deprecated code in the generator source.
+-Fixed example scene (removed outdated post processing code).
+
+-Added modern post processing.
+(Keep in mind to install the PostProcessing package through the package manager).
+
+-Wrote a new shader from scratch with custom color calculations. The shader is compatible with
+all existing systems. Simply replace the shader on your material used for casting with the "LightShafts/LightShafts" shader.
+
+-New Shader compatible with most built-in RP versions.
+-New shader for Universal render pipeline.
+-Renamed old shader to LightShafts/LightShaftAdditive(Legacy). This shader is kept for backwards support.
+
+
+-Removed additive transparent blending. A custom grabpass based calculation is now used.
+-Fixed weird fog behavior (global fog built-in RP, URP and HDRP not supported). Although fog is still not applied, the final color should play a little nicer with the fog color.
+-Both forward and Deferred render paths are now supported.
+-Fixed shafts getting identical rotations sometimes.
+-Added noise calculations to the shader to fake "thickness" and rotary movement.
+-Removed "natural rotation" per frame of the shafts. This replaced by a dot calculation of Noise and Voronoi noise. The shafts will receive a random rotation when spawned. After that the
+
+noise pattern gives the illusion of the shafts rotating. Because this is an illusion and rendered on the GPU. Baked shafts can now also mimic this behavior, Boosting fps by 300%!.
+Performance wise there is actually no longer a reason not to bake your generator, as there is visually no difference.
+Note! The noise patterns are calculated in vertex UV space, meaning they ignore texture UV's. When using meshes other than planes, keep in mind that the pattern might behave differently.
+
+-Added all new values to pass trough their pointers to each class and added them to the Inspector UI.
+-Removed “natural rotation” As this is now replaced with above system.
+-Removed autoRotation and autoRotZSpeed from every class.
+-Removed above from save and load class.
+-Shaftwidth no longer controls the widht of the shafts. Rather, it is used as a “max” value for the maximum size of one shaft.
+-Added shaftWidthMinMax where x represents the minimum portion of the slider and y represents the maxium portion.
+-Added a random width value to the Shaft_Behavior class. This value uses the min max of shaftWidthMinMax as inputs.
+This gives users the freedom to either have a uniform or variable shaft width.
+
+-Added shaftWidthMinMax (as two split floats) to the save class.
+-Removed most of the per frame update loops on the shaft as they are replaced by GPU features.
+-Update loops per shaft now only run in edit mode to adjust the shaft length and orientation.
+
+-Moved the Generate and Delete buttons below the settings and above the Bake options. This is done because the workflow should focus on correct settings with a final bake in mind.
+-Baking now also sets the shaftParent object to static by default.
+-Generator functions/methods now only run during EditorRuntime. This will break custom cast scripts that ran during build run time.
+Shaft behaviors and colors will still work correctly for non baked systems as the parameters are still accessible.
+
+-Cleaned up example folder.
+
+
+
+Alzheimer LightShafts 2 v1.04
+-Added folder for cummunity submitted content.
+-Added depth mask shader submitted by Dan Rosser. This shader can be used on a seperate mesh to cut of the edges of the LightShafts. For example to properly clip them to a window.
+-Fixed bug where shafts would displace and rotate wrongly when placed in a parent structure. The generator will now place the shafts correctly regardless of the parent/child relation.
+
+
+Alzheimer LightShafts 2 v1.03(minor update)
+-Compiled code for Unity 2018.1 and up. Fixed some minor bugs introduced with the update.
+-New tutorial available: https://www.youtube.com/watch?v=hZBLrZvusQA
+-Dropping support for Unity versions below 2017.x. (Depricating the Unity 5.x platforms).
+
+
+Alzheimer LightShafts 2 v1.02( (hotfix):Deprecated versions below 5.0.x)
+-Small hotfix: Dropping support for Unity versions below 5.0.x as UnityScript will be deprecated.
+
+
+Alzheimer LightShafts 2 v1.01 (hotfix)
+-Small update to fix all systems using the same SharedMaterial. Now a material will be created and assigned to the shafts on generatation. Each shaft then uses this reference to set its
+values. Nothing has changed in the setup, only the background code has been tweaked.
+
+
+
+Alzheimer LightShafts 2 v1.0 (Alzheimer LightShafts 2 release. Major milestone update)
+This update added allot of features and usability requested by many users for a long time.
+Adding and fixing them in previous versions would take as much time as rewriting the system. Which is what has happened.
+Now written in C# with the focus on usability and intuitivity. Most of the settings have been removed in favor of a 'tool'.
+
+
+-'Rewrote the complete system from the ground up in C#.'
+-Added auto shaft orientation to target. GameObjects or LightSources can now be used to orient the shafts.
+-All shaft settings, features are now handele on a per shaft basis. Removed all for loop systems in the generator.
+-New written Generator will now only handle shaft spawning/de-spawning.
+-Optimised the old shader for current system.
+-Realtime feedback in the editor. Users no longer have to "recast" after chaning settings. All shaft set their variables based on Generator pointers.
+-Simplified the Generator UI. The old inspector had allot of variables to tweak. Most of them will now be handled automatically as everything is moved to the per shaft system.
+-Added shaft length raycasting. As in the former system, shafts will collide against the environment.
+-Hooked the shafts Behavior script to the shader in order to set color.
+-Added shaft UV y axis offset to tweak the texture position.
+-Fixed mesh bug in the standard LightShaft plane. Shafts will no longer move when scaled on the Z axis.
+-Gizmo to visualise the defaulot DirectionPointer.
+-Added new more efficient squareCast (only in X and Y axis, Z will always be 0 from now).
+-Removed all redundant cast features (circle, cone and other cast types).
+-Added meshCast (mesCast will override default squareCast). Each vertex of a fed mesh will cast a shaft.
+-Added menu item for the new system. System will set and allight with current editor view.
+-MeshCast's scale is now set by the shaft distance value, same as squarecast.
+-Adjusted example scene. New image effects with post processingStack. Proper baked/realtime lighting. New skybox, winter themed.
+-Added LightShaft baking. A generator that does not require realtime collision can be baked into a single mesh. Setting this to object to static will give an
+ inmense framerate boost.
+-Dynamic shafts (default for the generator) which are used for settings or realtime collision. Are now batched together. This includes its mesh and material.
+ Greatly improves the framerate. Vritually no drop when using 100 shafts.
+-Complete new inspector GUI. This inspector is less confusing then its predicessor. Merging moost of the settings in the DirectionPointer tool (se above) and providing
+ the user with a generation/delete (delete happens automatically when casting a new batch of shafts) button, 
+ load/save buttons, the settings tab (also simplified compared to predicessor) and finally a bake button.
+-Auto rotation added for a more natural look to the shafts (can be toggled on or off). This will have somewhat of an impact on framerate since less shafts can be batched together.
+-Generated shafts in the editor will stay persistent in playmode. Previous version re-generated shafts on runtime's first frame. Which could ruin a certain look the user liked.
+ Combined with the realtime feedback, this will please users in keeping their shafts exactly as edited.
+-Fixed long time irritating uv offset issue. Editor would not represent ingame offset.
+-Previous child shafts are now properly deleted when the bake is finished. Leaving the user with one single lightweight mesh.
+-Finishe the custom Inspector editorscript. Only releveant values for the user have been exposed. The layout aims to be as straightforward as possible.
+ It might look barebones compared to the old one, but it has just as much power!
+-New icons for the Inspector.
+-Fixed nullpointer, DirectionPointer is now set as default when no source is given.
+-New manual.
